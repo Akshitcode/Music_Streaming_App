@@ -65,17 +65,40 @@ public class SongsActivity extends AppCompatActivity {
         valueEventListener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 mUpload.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     GetSongs getSongs = snapshot.getValue(GetSongs.class);
-                    getSongs.setmKey(snapshot.getKey());
-                    currentIndex = 0;
 
-                    String s = getIntent().getExtras().getString("songsCategory");
-                    if(s.equals(getSongs.getSongsCategory())) {
-                        mUpload.add(getSongs);
+                    getSongs.setmKey(snapshot.getKey());
+                    mUpload.add(getSongs);
+                    currentIndex = 0;
+//                    String s = getIntent().getExtras().getString("songsCategory");
+//                    Toast.makeText(SongsActivity.this, mUpload.get(mUpload.size()-1).getSongsCategory()+"", Toast.LENGTH_SHORT).show();
+//                    if(mUpload.get(mUpload.size()-1).getSongsCategory() ==s){
+//                        mUpload.remove(mUpload.size());
+//                    }else {
+//                        chekin =true;
+//                        jcAudios.add(JcAudio.createFromURL(mUpload.get(mUpload.size()-1).getSongTitle(),mUpload.get(mUpload.size()-1).getSongLink()));
+//                    }
+//                    String s = getIntent().getExtras().getString("songsCategory");
+//                    if(s==getSongs.getSongsCategory()) {
+//                        mUpload.add(getSongs);
+//                        chekin =true;
+//                        jcAudios.add(JcAudio.createFromURL(getSongs.getSongTitle(),getSongs.getSongLink()));
+//                    }
+                }
+                String s = getIntent().getExtras().getString("songsCategory");
+                Toast.makeText(SongsActivity.this, mUpload.get(mUpload.size()-1).getSongsCategory()+"", Toast.LENGTH_SHORT).show();
+
+                int size= mUpload.size();
+                for(int i=0;i<size;i++) {
+                    if(mUpload.get(i).getSongsCategory() != s) {
+                        mUpload.remove(i);
+                        size=mUpload.size();
+                    }else {
                         chekin =true;
-                        jcAudios.add(JcAudio.createFromURL(getSongs.getSongTitle(),getSongs.getSongLink()));
+                        jcAudios.add(JcAudio.createFromURL(mUpload.get(i).getSongTitle(),mUpload.get(i).getSongLink()));
                     }
                 }
 
