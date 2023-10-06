@@ -1,30 +1,32 @@
 package com.example.musicstreamingapplication.Model;
 
-public class GetSongs {
-    String songsCategory, songTitle, artist, album_art, songDuration, songLink, mKey;
+import java.util.ArrayList;
 
-    public GetSongs(String songsCategory, String songTitle, String artist, String album_art, String songDuration, String songLink) {
+public class GetSongs {
+    String songCategory, songTitle, artist, album_art, songDuration, songLink, mKey;
+    ArrayList<String> names = new ArrayList<>();
+    public GetSongs(String album_art, String songLink, String songTitle, String artist, String songDuration, String songCategory) {
         if(songTitle.trim().equals("")){
             songTitle = "No Title";
         }
-        this.songsCategory = songsCategory;
+
         this.songTitle = songTitle;
         this.artist = artist;
         this.album_art = album_art;
         this.songDuration = songDuration;
         this.songLink = songLink;
-
+        this.songCategory = songCategory;
     }
 
     public GetSongs() {
     }
 
     public String getSongsCategory() {
-        return songsCategory;
+        return songCategory;
     }
 
     public void setSongsCategory(String songsCategory) {
-        this.songsCategory = songsCategory;
+        this.songCategory = songsCategory;
     }
 
     public String getSongTitle() {
@@ -73,5 +75,13 @@ public class GetSongs {
 
     public void setmKey(String mKey) {
         this.mKey = mKey;
+    }
+
+    public ArrayList<String> getNames() {
+        return names;
+    }
+
+    public void setNames(ArrayList<String> names) {
+        this.names = names;
     }
 }

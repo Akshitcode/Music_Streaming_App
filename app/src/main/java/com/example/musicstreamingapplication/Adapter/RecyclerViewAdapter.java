@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -43,7 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        final Upload upload = uploads.get(position);
+        Upload upload = uploads.get(position);
         holder.tv_book_text.setText(upload.getName());
         Glide.with(mContext).load(upload.getUrl()).into(holder.imd_book_thumnail);
 
@@ -51,7 +52,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder>{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, SongsActivity.class);
-                intent.putExtra("songsCategory", upload.getSongsCategory());
+                intent.putExtra("artistName", upload.getName());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             }

@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaySongsActivity extends AppCompatActivity {
+public class ArtistAlbumActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
@@ -29,7 +29,7 @@ public class PlaySongsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play_songs);
+        setContentView(R.layout.activity_artist_album);
 
         recyclerView = findViewById(R.id.recyclerViewId);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));

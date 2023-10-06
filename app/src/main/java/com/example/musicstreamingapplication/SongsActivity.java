@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -20,8 +21,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class SongsActivity extends AppCompatActivity {
 
@@ -49,19 +53,22 @@ public class SongsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mUpload = new ArrayList<>();
         recyclerView.setAdapter(adapter);
+
         adapter = new SongsAdapter(getApplicationContext(),mUpload, new SongsAdapter.RecyclerItemClickListener(){
             @Override
             public void onClickListener(GetSongs songs, int position) {
 
-                changeSelectedSong(position);
 
                 jcPlayerView.playAudio(jcAudios.get(position));
                 jcPlayerView.setVisibility(View.VISIBLE);
                 jcPlayerView.createNotification();
+
+                changeSelectedSong(position);
+
             }
         });
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("songs");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("songs");
         valueEventListener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -69,49 +76,36 @@ public class SongsActivity extends AppCompatActivity {
                 mUpload.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     GetSongs getSongs = snapshot.getValue(GetSongs.class);
-
                     getSongs.setmKey(snapshot.getKey());
-                    mUpload.add(getSongs);
+                    getSongs.setArtist(StringUtils.substringBefore(getSongs.getArtist(), "(").trim());
                     currentIndex = 0;
-//                    String s = getIntent().getExtras().getString("songsCategory");
-//                    Toast.makeText(SongsActivity.this, mUpload.get(mUpload.size()-1).getSongsCategory()+"", Toast.LENGTH_SHORT).show();
-//                    if(mUpload.get(mUpload.size()-1).getSongsCategory() ==s){
-//                        mUpload.remove(mUpload.size());
-//                    }else {
-//                        chekin =true;
-//                        jcAudios.add(JcAudio.createFromURL(mUpload.get(mUpload.size()-1).getSongTitle(),mUpload.get(mUpload.size()-1).getSongLink()));
-//                    }
-//                    String s = getIntent().getExtras().getString("songsCategory");
-//                    if(s==getSongs.getSongsCategory()) {
-//                        mUpload.add(getSongs);
-//                        chekin =true;
-//                        jcAudios.add(JcAudio.createFromURL(getSongs.getSongTitle(),getSongs.getSongLink()));
-//                    }
-                }
-                String s = getIntent().getExtras().getString("songsCategory");
-                Toast.makeText(SongsActivity.this, mUpload.get(mUpload.size()-1).getSongsCategory()+"", Toast.LENGTH_SHORT).show();
+                    String s = getIntent().getExtras().getString("artistName");
 
-                int size= mUpload.size();
-                for(int i=0;i<size;i++) {
-                    if(mUpload.get(i).getSongsCategory() != s) {
-                        mUpload.remove(i);
-                        size=mUpload.size();
-                    }else {
-                        chekin =true;
-                        jcAudios.add(JcAudio.createFromURL(mUpload.get(i).getSongTitle(),mUpload.get(i).getSongLink()));
+                    String[] arrofStr = getSongs.getArtist().split(",");
+                    ArrayList<String> names = new ArrayList<>();
+                    for(String a : arrofStr) {
+                        if(s.equals(a.trim())) {
+                            mUpload.add(getSongs);
+                            chekin =true;
+                            jcAudios.add(JcAudio.createFromURL(getSongs.getSongTitle(),getSongs.getSongLink()));
+                            break;
+                        }
+                        names.add(a.trim());
                     }
+                    getSongs.setNames(names);
                 }
-
-                adapter.setSelectedPosition(0);
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
 
                 if(chekin) {
                     jcPlayerView.initPlaylist(jcAudios,null);
                 }else {
                     Toast.makeText(SongsActivity.this, "There is no Song...", Toast.LENGTH_SHORT).show();
                 }
+                adapter.setSelectedPosition(0);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+
+
             }
 
             @Override

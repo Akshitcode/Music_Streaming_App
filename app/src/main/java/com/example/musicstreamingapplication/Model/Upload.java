@@ -4,12 +4,12 @@ public class Upload {
 
     public String name;
     public String url;
-    public String songsCategory;
+    public String songCategory;
 
-    public Upload(String name, String url, String songsCategory) {
+    public Upload(String name, String url, String songCategory) {
         this.name = name;
         this.url = url;
-        this.songsCategory = songsCategory;
+        this.songCategory = songCategory;
     }
 
     public Upload() {
@@ -31,11 +31,11 @@ public class Upload {
         this.url = url;
     }
 
-    public String getSongsCategory() {
-        return songsCategory;
+    public String getSongCategory() {
+        return songCategory;
     }
 
-    public void setSongsCategory(String songsCategory) {
-        this.songsCategory = songsCategory;
+    public void setSongCategory(String songsCategory) {
+        this.songCategory = songsCategory;
     }
 }

@@ -26,7 +26,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.musicstreamingapplication.Model.UploadSong;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -40,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class UploadSongActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     TextView textViewImage;
     ProgressBar progressBar;
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     StorageReference mStorageRef;
     StorageTask mUlpoadTask;
     DatabaseReference referenceSongs;
-    String songsCategory;
+    String songCategory;
     MediaMetadataRetriever metadataRetriever;
     byte [] art;
     String title1,artist1,album_art1 = "" , durations1;
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_upload_song);
 
         textViewImage=findViewById(R.id.textViewsongsFilesSelected);
         progressBar =findViewById(R.id.progressBar);
@@ -91,12 +90,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        songsCategory = parent.getItemAtPosition(position).toString();
+        songCategory = parent.getItemAtPosition(position).toString();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        songsCategory = "";
+        songCategory = "";
     }
 
     public void openAudioFiles(View v) {
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
 
 
-                        UploadSong uploadSong = new UploadSong(songsCategory,title1,artist1,album_art1,durations1,uri.toString());
+                        com.example.musicstreamingapplication.Model.UploadSong uploadSong = new com.example.musicstreamingapplication.Model.UploadSong(songCategory,title1,artist1,album_art1,durations1,uri.toString());
                         String uploadId = referenceSongs.push().getKey();
                         referenceSongs.child(uploadId).setValue(uploadSong);
 
@@ -210,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void openAlbumUploadsActivity(View v) {
-        Intent intent = new Intent(MainActivity.this, UploadAlbumActivity.class);
+        Intent intent = new Intent(UploadSongActivity.this, UploadAlbumActivity.class);
         startActivity(intent);
     }
 

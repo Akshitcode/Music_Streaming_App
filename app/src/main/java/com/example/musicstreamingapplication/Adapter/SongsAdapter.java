@@ -55,13 +55,12 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
                 holder.iv_play_active.setVisibility(View.INVISIBLE);
             }
         }
-
         holder.tv_title.setText(getSongs.getSongTitle());
         holder.tv_artist.setText(getSongs.getArtist());
         String duration = Utility.convertDuration(Long.parseLong(getSongs.getSongDuration()));
         holder.tv_duration.setText(duration);
 
-        holder.bind(getSongs,listener);
+        holder.bind(getSongs,listener,holder);
 
     }
 
@@ -92,10 +91,11 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
             iv_play_active = itemView.findViewById(R.id.iv_play_active);
         }
 
-        public void bind(GetSongs getSongs, SongsAdapter.RecyclerItemClickListener listener) {
+        public void bind(GetSongs getSongs, final RecyclerItemClickListener listener,SongViewHolder songViewHolder) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    songViewHolder.iv_play_active.setImageResource(R.drawable.ic_pause_outline_24);
                     listener.onClickListener(getSongs,getAdapterPosition());
                 }
             });
