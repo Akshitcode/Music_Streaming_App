@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
@@ -45,6 +46,7 @@ public class UploadSongActivity extends AppCompatActivity implements AdapterView
     ProgressBar progressBar;
     Uri audioUri;
     StorageReference mStorageRef;
+    Bitmap bitmap;
     StorageTask mUlpoadTask;
     DatabaseReference referenceSongs;
     String songCategory;
@@ -116,7 +118,7 @@ public class UploadSongActivity extends AppCompatActivity implements AdapterView
             metadataRetriever.setDataSource(this,audioUri);
 
             art = metadataRetriever.getEmbeddedPicture();
-            Bitmap bitmap = BitmapFactory.decodeByteArray(art,0, art.length);
+            bitmap = BitmapFactory.decodeByteArray(art,0, art.length);
             album_art.setImageBitmap(bitmap);
             album.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM));
             artist.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST));
@@ -181,7 +183,7 @@ public class UploadSongActivity extends AppCompatActivity implements AdapterView
                     storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
 
 
-                        com.example.musicstreamingapplication.Model.UploadSong uploadSong = new com.example.musicstreamingapplication.Model.UploadSong(songCategory,title1,artist1,album_art1,durations1,uri.toString());
+                        com.example.musicstreamingapplication.Model.UploadSong uploadSong = new com.example.musicstreamingapplication.Model.UploadSong(songCategory,title1,artist1,audioUri.toString(),durations1,uri.toString());
                         String uploadId = referenceSongs.push().getKey();
                         referenceSongs.child(uploadId).setValue(uploadSong);
 

@@ -34,13 +34,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".UploadAlbumActivity"
             android:exported="false" />
         <activity
             android:name=".UploadSongActivity"
-            android:exported="true" />
+            android:exported="true" >
+
+        </activity>
     </application>
 
 </manifest>

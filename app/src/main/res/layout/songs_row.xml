@@ -9,6 +9,13 @@
     android:focusable="true"
     android:background="@drawable/layout_design"
     android:backgroundTint="#322D2D">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/artWorkLay"
+        android:background="@drawable/layout_design"
+        android:backgroundTint="@color/black"
+        >
 
     <ImageView
         android:layout_width="50dp"
@@ -16,11 +23,10 @@
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_audiotrack_24"
         android:id="@+id/iv_artwork"
-        android:background="@drawable/layout_design"
-        android:backgroundTint="@color/black"
+        android:background="@drawable/ic_audiotrack_24"
         />
+    </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,14 +36,14 @@
         android:textStyle="bold"
         android:paddingRight="50dp"
         android:paddingEnd="50dp"
-        android:layout_toRightOf="@+id/iv_artwork"
-        android:layout_toEndOf="@+id/iv_artwork"/>
+        android:layout_toRightOf="@+id/artWorkLay"
+        android:layout_toEndOf="@+id/artWorkLay"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/iv_artwork"
-        android:layout_toEndOf="@+id/iv_artwork"
+        android:layout_toRightOf="@+id/artWorkLay"
+        android:layout_toEndOf="@+id/artWorkLay"
         android:text="Artist"
         android:layout_below="@+id/iv_title"
         android:id="@+id/iv_artist"/>

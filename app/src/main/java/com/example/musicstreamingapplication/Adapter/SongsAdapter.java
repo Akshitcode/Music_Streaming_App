@@ -1,7 +1,12 @@
 package com.example.musicstreamingapplication.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.musicstreamingapplication.Model.GetSongs;
 import com.example.musicstreamingapplication.Model.LikedDatabase;
 import com.example.musicstreamingapplication.Model.Utility;
@@ -76,6 +82,23 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         else {
             holder.iv_like_button.setBackgroundResource(R.drawable.whiteheart);
         }
+//        byte [] art=
+//        Bitmap bitmap = BitmapFactory.decodeByteArray(getSongs.getAlbum_art().getBytes(),0, getSongs.getAlbum_art().getBytes().length);
+//        holder.album_art.setImageBitmap(bitmap);
+//        String uri = getSongs.getSongLink();
+//        Glide.with(context)
+//                .load(uri)
+//                .into(holder.album_art);
+       // holder.album_art.getBackground(getSongs.getAlbum_art());
+
+//        if(getSongs.getAlbum_art() !=""){
+//            MediaMetadataRetriever metadataRetriever= new MediaMetadataRetriever();
+//            metadataRetriever.setDataSource(Uri.parse(getSongs.getAlbum_art()));
+//
+//            byte[] art = metadataRetriever.getEmbeddedPicture();
+//            Bitmap bitmap = BitmapFactory.decodeByteArray(art,0, art.length);
+//            holder.album_art.setImageBitmap(bitmap);
+//        }
 
         holder.iv_title.setText(getSongs.getSongTitle());
         holder.iv_artist.setText(getSongs.getArtist());
@@ -123,7 +146,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     public class SongViewHolder extends RecyclerView.ViewHolder {
 
         public TextView iv_title, iv_artist, iv_duration;
-        public ImageView iv_like_button;
+        public ImageView iv_like_button, album_art;
 
         public SongViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -132,6 +155,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
             iv_artist = itemView.findViewById(R.id.iv_artist);
             iv_duration = itemView.findViewById(R.id.tv_duration);
             iv_like_button = itemView.findViewById(R.id.iv_like_button);
+            album_art = itemView.findViewById(R.id.iv_artwork);
         }
 
     }
