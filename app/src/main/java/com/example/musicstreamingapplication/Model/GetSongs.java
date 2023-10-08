@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class GetSongs {
     String songCategory, songTitle, artist, album_art, songDuration, songLink, mKey;
+    boolean isliked = false;
     ArrayList<String> names = new ArrayList<>();
     public GetSongs(String album_art, String songLink, String songTitle, String artist, String songDuration, String songCategory) {
         if(songTitle.trim().equals("")){
             songTitle = "No Title";
         }
-
         this.songTitle = songTitle;
         this.artist = artist;
         this.album_art = album_art;
@@ -79,6 +79,14 @@ public class GetSongs {
 
     public ArrayList<String> getNames() {
         return names;
+    }
+
+    public boolean isIsliked() {
+        return isliked;
+    }
+
+    public void setIsliked(boolean isliked) {
+        this.isliked = isliked;
     }
 
     public void setNames(ArrayList<String> names) {

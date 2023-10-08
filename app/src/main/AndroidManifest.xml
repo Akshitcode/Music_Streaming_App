@@ -13,26 +13,34 @@
         android:theme="@style/Theme.MusicStreamingApplication"
         tools:targetApi="31">
         <activity
+            android:name=".YourLibraryActivity"
+            android:label="Your Library"
+            android:exported="false" />
+        <activity
+            android:name=".SearchActivity"
+            android:theme="@style/Theme.MusicStreamingApplication"
+            android:label="Search"
+            android:exported="false" />
+        <activity
             android:name=".SongsActivity"
+            android:label="Songs"
             android:exported="false" />
         <activity
             android:name=".ArtistAlbumActivity"
+            android:label="Artist's Album"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".UploadAlbumActivity"
             android:exported="false" />
         <activity
             android:name=".UploadSongActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

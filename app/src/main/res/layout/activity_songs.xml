@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".SongsActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
-        android:paddingBottom="130dp">
+        android:layout_marginBottom="70dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -24,10 +25,124 @@
         android:id="@+id/progressBarShowing"
         android:indeterminate="true"
         />
-    <com.example.jean.jcplayer.view.JcPlayerView
+    <LinearLayout
+        android:id="@+id/forJc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/jcPlayer"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/layout_design"
+        android:backgroundTint="#201E1E"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"/>
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:orientation="horizontal"
+        android:alpha="1"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:id="@+id/artist_tab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/round_shape"
+                android:backgroundTint="#201E1E"
+                android:src="@drawable/baseline_album_24"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Artist" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/songs_tab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/round_shape"
+                android:backgroundTint="#201E1E"
+                android:src="@drawable/baseline_library_music_24"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Songs" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/search_tab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/round_shape"
+                android:backgroundTint="#201E1E"
+                android:src="@drawable/ic_search" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Search" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/your_library_tab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/round_shape"
+                android:backgroundTint="#201E1E"
+                android:src="@drawable/baseline_library_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Your Library" />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <com.example.jean.jcplayer.view.JcPlayerView
+        android:id="@+id/jcPlayer"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_above="@+id/forJc"
+        android:layout_marginBottom="5dp"
+        android:alpha="1"
+        android:visibility="gone" />
+
 </RelativeLayout>

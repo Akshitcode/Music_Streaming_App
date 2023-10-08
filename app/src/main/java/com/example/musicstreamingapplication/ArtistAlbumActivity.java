@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.musicstreamingapplication.Adapter.RecyclerViewAdapter;
 import com.example.musicstreamingapplication.Model.Upload;
@@ -22,6 +25,7 @@ import java.util.List;
 public class ArtistAlbumActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
+    LinearLayout artistTab, songTAb, searchTab, yourLibraryTab;
     RecyclerViewAdapter adapter;
     DatabaseReference mDatabase ;
     ProgressDialog progressDialog;
@@ -54,6 +58,35 @@ public class ArtistAlbumActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressDialog.dismiss();
+            }
+        });
+
+        artistTab = findViewById(R.id.artist_tab);
+        songTAb = findViewById(R.id.songs_tab);
+        searchTab = findViewById(R.id.search_tab);
+        yourLibraryTab = findViewById(R.id.your_library_tab);
+
+        songTAb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SongsActivity.class);
+                intent.putExtra("artistName", "all");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+        searchTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+        yourLibraryTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), YourLibraryActivity.class);
+                startActivity(intent);
             }
         });
     }
