@@ -62,11 +62,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/liked_songs"
-        android:layout_margin="5dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/round_shape"
         android:backgroundTint="#201E1E"
         android:orientation="horizontal"
@@ -84,6 +83,35 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="Downloads"
+            android:textColor="@color/white"
+            android:textSize="23sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/upload_songs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/downloaded_songs"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/round_shape"
+        android:backgroundTint="#201E1E"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/round_shape"
+            android:backgroundTint="#201E1E"
+            android:src="@drawable/baseline_upload_file_24" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Upload Songs"
             android:textColor="@color/white"
             android:textSize="23sp" />
     </LinearLayout>
@@ -197,6 +225,7 @@
 
 
     </LinearLayout>
+
     <com.example.jean.jcplayer.view.JcPlayerView
         android:id="@+id/jcPlayer"
         android:background="@color/white"

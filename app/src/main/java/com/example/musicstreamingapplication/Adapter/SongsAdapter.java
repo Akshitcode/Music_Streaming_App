@@ -18,13 +18,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.musicstreamingapplication.Model.GetSongs;
 import com.example.musicstreamingapplication.Model.LikedDatabase;
 import com.example.musicstreamingapplication.Model.Utility;
 import com.example.musicstreamingapplication.R;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHolder> {
 
@@ -65,16 +72,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
             likedSongs = likedDatabase.returnAllLikedSongs();
         }
 
-//        if(getSongs != null) {
-//            if(selectedPosition == position) {
-//                holder.itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.black));
-//                holder.iv_play_active.setVisibility(View.VISIBLE);
-//            }
-//            else {
-//                holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.black));
-//                holder.iv_play_active.setVisibility(View.INVISIBLE);
-//            }
-//        }
+
 
         if(likedSongs.contains(getSongs.getmKey())){
             holder.iv_like_button.setBackgroundResource(R.drawable.greenheart);
@@ -82,42 +80,30 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         else {
             holder.iv_like_button.setBackgroundResource(R.drawable.whiteheart);
         }
-//        byte [] art=
-//        Bitmap bitmap = BitmapFactory.decodeByteArray(getSongs.getAlbum_art().getBytes(),0, getSongs.getAlbum_art().getBytes().length);
-//        holder.album_art.setImageBitmap(bitmap);
-//        String uri = getSongs.getSongLink();
-//        Glide.with(context)
-//                .load(uri)
-//                .into(holder.album_art);
-       // holder.album_art.getBackground(getSongs.getAlbum_art());
 
-//        if(getSongs.getAlbum_art() !=""){
-//            MediaMetadataRetriever metadataRetriever= new MediaMetadataRetriever();
-//            metadataRetriever.setDataSource(Uri.parse(getSongs.getAlbum_art()));
-//
-//            byte[] art = metadataRetriever.getEmbeddedPicture();
-//            Bitmap bitmap = BitmapFactory.decodeByteArray(art,0, art.length);
-//            holder.album_art.setImageBitmap(bitmap);
-//        }
 
         holder.iv_title.setText(getSongs.getSongTitle());
         holder.iv_artist.setText(getSongs.getArtist());
         String duration = Utility.convertDuration(Long.parseLong(getSongs.getSongDuration()));
         holder.iv_duration.setText(duration);
 
+        if(getSongs.getAlbum_art().trim() !=""){
+            Log.e("hello", getSongs.getAlbum_art()+"h");
+            //Picasso.get().load(getSongs.getAlbum_art().trim()).into(holder.album_art);
+
+            RequestOptions requestOptions = new RequestOptions()
+                    .transform(new RoundedCorners(20));
+
+            Glide.with(context)
+                    .load(getSongs.getAlbum_art().trim())
+                    .apply(requestOptions)
+                    .into(holder.album_art);
+        }
+
         holder.iv_like_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(getSongs.isIsliked()){
-//                    holder.iv_like_button.setBackgroundResource(R.drawable.whiteheart);
-//                    likedDatabase.deleteSongFromDatabaseByID(getSongs.getmKey());
-//                    getSongs.setIsliked(false);
-//                }
-//                else {
-//                    holder.iv_like_button.setBackgroundResource(R.drawable.greenheart);
-//                    likedDatabase.addLikedSongToDatabase(getSongs.getmKey());
-//                    getSongs.setIsliked(true);
-//                }
+
                 listener.onLikedClickListener(getSongs,holder, holder.getAdapterPosition(),likedDatabase);
             }
         });
@@ -142,6 +128,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     public void setSelectedPosition(int selectedPosition) {
         this.selectedPosition = selectedPosition;
     }
+
 
     public class SongViewHolder extends RecyclerView.ViewHolder {
 

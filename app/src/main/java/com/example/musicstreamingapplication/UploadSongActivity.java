@@ -27,6 +27,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.musicstreamingapplication.Model.UploadSong;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,6 +38,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -164,7 +167,7 @@ public class UploadSongActivity extends AppCompatActivity implements AdapterView
             Toast.makeText(this, "Please select a file first", Toast.LENGTH_SHORT).show();
         } else {
             if(mUlpoadTask != null && mUlpoadTask.isInProgress()) {
-                Toast.makeText(this, "Songs uploads in allready in progress", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Songs uploads in already in progress", Toast.LENGTH_SHORT).show();
             }else {
                 uploadFiles();
             }
@@ -174,19 +177,51 @@ public class UploadSongActivity extends AppCompatActivity implements AdapterView
     private void uploadFiles() {
 
         if(audioUri !=null) {
+
+            StorageReference mountainImagesRef = mStorageRef.child(System.currentTimeMillis() +".jpeg");
+
+// While the file names are the same, the references point to different files
+//            mountainsRef.getName().equals(mountainImagesRef.getName());    // true
+//            mountainsRef.getPath().equals(mountainImagesRef.getPath());    // false
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
+
+            UploadTask uploadTask = mountainImagesRef.putBytes(data);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    mountainImagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            album_art1 = uri.toString();
+                        }
+                    });
+                }
+            });
+
             Toast.makeText(this, "Uploading please Wait!", Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.VISIBLE);
             final StorageReference storageReference = mStorageRef.child(System.currentTimeMillis() +"."+ getFileExtension(audioUri));
             mUlpoadTask = storageReference.putFile(audioUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
 
 
-                        com.example.musicstreamingapplication.Model.UploadSong uploadSong = new com.example.musicstreamingapplication.Model.UploadSong(songCategory,title1,artist1,audioUri.toString(),durations1,uri.toString());
-                        String uploadId = referenceSongs.push().getKey();
-                        referenceSongs.child(uploadId).setValue(uploadSong);
+                            UploadSong uploadSong = new UploadSong(songCategory, title1, artist1, album_art1, durations1, uri.toString());
+                            String uploadId = referenceSongs.push().getKey();
+                            referenceSongs.child(uploadId).setValue(uploadSong);
 
+                        }
                     });
                 }
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -215,4 +250,10 @@ public class UploadSongActivity extends AppCompatActivity implements AdapterView
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(UploadSongActivity.this, YourLibraryActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

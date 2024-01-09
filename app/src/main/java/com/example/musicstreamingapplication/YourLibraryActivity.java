@@ -31,7 +31,7 @@ import java.util.List;
 
 public class YourLibraryActivity extends AppCompatActivity {
 
-    LinearLayout artistTab, songTAb, searchTab, yourLibraryTab, likedSongs, downloadedSongs;
+    LinearLayout artistTab, songTAb, searchTab, yourLibraryTab, likedSongs, downloadedSongs,uploadSongs;
     RecyclerView recyclerView;
     ProgressBar progressBar;
     JcPlayerView jcPlayerView;
@@ -57,6 +57,7 @@ public class YourLibraryActivity extends AppCompatActivity {
         yourLibraryTab = findViewById(R.id.your_library_tab);
         likedSongs = findViewById(R.id.liked_songs);
         downloadedSongs = findViewById(R.id.downloaded_songs);
+        uploadSongs = findViewById(R.id.upload_songs);
 
         recyclerView = findViewById(R.id.recyclerView);
         progressBar = findViewById(R.id.progressBarShowing);
@@ -94,6 +95,7 @@ public class YourLibraryActivity extends AppCompatActivity {
                 backPressed=true;
                 likedSongs.setVisibility(View.GONE);
                 downloadedSongs.setVisibility(View.GONE);
+                uploadSongs.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
 
                 getSupportActionBar().setTitle("Liked Songs");
@@ -106,6 +108,26 @@ public class YourLibraryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+        uploadSongs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), UploadSongActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        yourLibraryTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                likedSongs.setVisibility(View.VISIBLE);
+                downloadedSongs.setVisibility(View.VISIBLE);
+                uploadSongs.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                backPressed=false;
+                getSupportActionBar().setTitle("Your Library");
             }
         });
     }
@@ -202,12 +224,14 @@ public class YourLibraryActivity extends AppCompatActivity {
         if(backPressed){
             likedSongs.setVisibility(View.VISIBLE);
             downloadedSongs.setVisibility(View.VISIBLE);
+            uploadSongs.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
             backPressed=false;
             getSupportActionBar().setTitle("Your Library");
         }
         else{
             super.onBackPressed();
+            finish();
         }
     }
 }
